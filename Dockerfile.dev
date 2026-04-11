@@ -1,0 +1,9 @@
+ARG CRYSTAL_VERSION=1.19
+
+FROM crystallang/crystal:${CRYSTAL_VERSION}-alpine
+RUN apk --update --no-cache add vips-dev watchexec
+WORKDIR /app/
+COPY ./shard.yml ./shard.lock /app/
+RUN shards install
+COPY ./ /app/
+CMD ["watchexec", "--exts", "cr,yml", "-r", "shards", "run", "lightning_image"]

@@ -1,0 +1,2 @@
+# using negative lookahead
+^(?!https://example\.com/.*)

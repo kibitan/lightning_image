@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+cd "$(dirname "$0")" || exit 1
+cd ../
+
+export LOG_LEVEL="${LOG_LEVEL:-debug}"
+
+docker build -t lightning_image_dev -f Dockerfile.dev .
+docker run -it --rm -v $(pwd):/app -p 8080:8080 lightning_image_dev

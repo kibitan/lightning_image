@@ -1,0 +1,9 @@
+/docs/
+/.shards/
+*.dwarf
+/cache/
+/.cache/
+*.pid
+*.sock
+lightning_image
+allow_list.txt

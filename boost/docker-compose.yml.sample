@@ -1,0 +1,31 @@
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../cache:/cache
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./tmp:/tmp
+    depends_on:
+      - app
+
+  app:
+    build: ../
+    # if you want to connect via port, uncomment this
+    # expose:
+    #   - "18080"
+    volumes:
+      - ../cache:/cache
+      - ./tmp:/tmp
+    environment:
+      # - PORT=18080 # if you want to connect via port, uncomment this
+      - UNIX_SOCKET=/tmp/lightning_image.sock
+      - CACHE_DIR=/cache
+      - SERVE_CACHE=false
+      - X_SEND_FILE_HEADER=X-Accel-Redirect
+      - X_SEND_FILE_LOCATION=/x-accel-redirect
+      - CACHE_CONTROL_HEADER= # let nginx handle the cache control
+      - ETAG=false # let nginx handle the etag
+      - LAST_MODIFIED=false # let nginx handle the last modified
+      - LOG_LEVEL=info

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+cd "$(dirname "$0")" || exit 1
+cd ../
+
+if ! command -v crystal &> /dev/null; then
+  echo "crystal could not be found"
+  echo "please install crystal: https://crystal-lang.org/install/"
+  exit 1
+fi
+
+if ! command -v vips &> /dev/null; then
+  echo "vips could not be found"
+  echo "please install libvips: https://www.libvips.org/install.html"
+  exit 1
+fi
+
+shards install

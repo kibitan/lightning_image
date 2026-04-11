@@ -1,0 +1,16 @@
+/docs/
+/lib/
+/bin/
+/.shards/
+*.dwarf
+/cache/
+/.cache/
+*.pid
+*.sock
+lightning_image
+
+allow_list.txt
+
+boost/nginx.conf
+boost/docker-compose.yml
+boost/tmp

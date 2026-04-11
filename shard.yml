@@ -1,0 +1,17 @@
+name: lightning_image
+version: 0.1.0
+
+authors:
+  - kibitan <uzukifirst@gmail.com>
+
+targets:
+  lightning_image:
+    main: src/lightning_image.cr
+
+dependencies:
+  vips:
+    github: naqvis/crystal-vips
+
+crystal: '>= 1.19.1'
+
+license: MIT

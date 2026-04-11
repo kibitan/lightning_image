@@ -1,0 +1,59 @@
+#user  nobody;
+worker_processes  1;
+error_log /dev/stderr warn;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                    '$status $body_bytes_sent "$http_referer" '
+                    '"$http_user_agent" "$http_x_forwarded_for"'
+                    'rt=$request_time urt=$upstream_response_time uct=$upstream_connect_time uht=$upstream_header_time';
+    access_log /dev/stdout main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+
+    server {
+        listen       8080;
+        server_name  lightning_image;
+
+        #charset koi8-r;
+
+        location /webp/ {
+            root /cache;
+            try_files $request_uri @app;
+            default_type image/webp;
+            expires 1d;
+            add_header Cache-Control public;
+            etag on;
+        }
+
+        location @app {
+            proxy_pass http://app;
+            # proxy_pass http://app:18080; # if you want to connect via port, uncomment this instead:
+        }
+
+        location /x-accel-redirect/cache/ {
+            internal;
+            alias /cache/;
+            expires 1d;
+            add_header Cache-Control public;
+            etag on;
+        }
+    }
+
+    upstream app {
+        server unix:/tmp/lightning_image.sock;
+    }
+
+    include servers/*;
+}

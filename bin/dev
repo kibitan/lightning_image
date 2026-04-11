@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+cd "$(dirname "$0")" || exit 1
+cd ../
+
+export LOG_LEVEL="${LOG_LEVEL:-debug}"
+
+if which watchexec >/dev/null 2>&1; then
+  watchexec --exts cr,yml -r shards run lightning_image
+else
+  echo "NOTE: watchexec is not installed, you can install it for hot-reloading: https://github.com/watchexec/watchexec"
+  shards run lightning_image
+fi

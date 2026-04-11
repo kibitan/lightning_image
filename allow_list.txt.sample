@@ -1,0 +1,6 @@
+# Allow-list example: only allow URLs from example.com
+^https://example\.com/.*
+
+# Deny-list style example (negative lookahead):
+# block image.example.com and allow everything else
+^(?!https://image\.example\.com/.*)
